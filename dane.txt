@@ -1,0 +1,4 @@
+Smerdzyński Tomasz, adres e-mail: tomaszsmerdzynski@gmail.com
+Temat projektu: Object Yaml Mapper
+Wykorzystane technologie: język C#, .NET 5.0
+Temat pracy inżynierskiej: Projekt i implementacja aplikacji webowej wspomagającej dietę
