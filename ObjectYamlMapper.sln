@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectYamlMapper", "ObjectYamlMapper\ObjectYamlMapper.csproj", "{BB40B1FA-AC55-4F99-A28B-A88E0E2469E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{1A770E92-B8B6-4662-B374-65E5D28B2DB7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB40B1FA-AC55-4F99-A28B-A88E0E2469E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB40B1FA-AC55-4F99-A28B-A88E0E2469E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB40B1FA-AC55-4F99-A28B-A88E0E2469E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB40B1FA-AC55-4F99-A28B-A88E0E2469E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A770E92-B8B6-4662-B374-65E5D28B2DB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A770E92-B8B6-4662-B374-65E5D28B2DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A770E92-B8B6-4662-B374-65E5D28B2DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A770E92-B8B6-4662-B374-65E5D28B2DB7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6D19BA4-87CD-4DA7-97AC-C8748CB00A62}
+	EndGlobalSection
+EndGlobal
