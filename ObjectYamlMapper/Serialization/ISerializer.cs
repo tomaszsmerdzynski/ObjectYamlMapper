@@ -1,6 +1,6 @@
 ﻿namespace ObjectYamlMapper.Serialization
 {
-    interface ISerializer
+    public interface ISerializer
     {
         public string Serialize(object obj);
     }

@@ -16,7 +16,7 @@ namespace ObjectYamlMapper.Serialization
 
             IEnumerable<FieldInfo> fields = objTypeInfo.DeclaredFields;
 
-            StringWriter buffer = new StringWriter();
+            StringWriter buffer = new();
 
             Console.WriteLine("*** Serializing object \"" + objType.Name + "\"...");
 
@@ -37,8 +37,7 @@ namespace ObjectYamlMapper.Serialization
                 else if (field.FieldType.IsGenericType)
                 {
                     Type genericType = field.FieldType.GetGenericArguments()[0];
-                    IEnumerable<object> list = field.GetValue(obj) as IEnumerable<object>;
-                    if (list == null || list.Any() == false)
+                    if (field.GetValue(obj) is not IEnumerable<object> list || list.Any() == false)
                     {
                         buffer.WriteLine("{0}: []");
                     }
@@ -69,18 +68,18 @@ namespace ObjectYamlMapper.Serialization
                     }
                     else
                     {
-                        // Serialize(tempObj);
+                        Serialize(tempObj);
                     }
                 }
             }
             return buffer.ToString();
         }
 
-        private string RemoveFieldTag(string fieldName)
+        private static string RemoveFieldTag(string fieldName)
         {
             if (fieldName.StartsWith('<') && fieldName.Contains('>'))
             {
-                fieldName = fieldName.Substring(fieldName.IndexOf('<') + 1, fieldName.IndexOf('>') - (fieldName.IndexOf('<') + 1));
+                fieldName = fieldName[(fieldName.IndexOf('<') + 1)..fieldName.IndexOf('>')];
             }
             return fieldName;
         }

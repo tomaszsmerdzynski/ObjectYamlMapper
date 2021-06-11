@@ -5,7 +5,7 @@ namespace ObjectYamlMapper.Extensions
 {
     public static class TypeExtension
     {
-        private static List<Type> _numericTypes => new List<Type>()
+        private static List<Type> NumericTypes => new()
         {
             typeof(int),
             typeof(short),
@@ -22,7 +22,7 @@ namespace ObjectYamlMapper.Extensions
 
         public static bool IsNumeric(this Type type)
         {
-            return _numericTypes.Contains(type);
+            return NumericTypes.Contains(type);
         }
 
         public static bool IsCustomObject(this Type type)

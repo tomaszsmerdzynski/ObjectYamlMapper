@@ -9,4 +9,8 @@
     <Folder Include="Files\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ObjectYamlMapper\ObjectYamlMapper.csproj" />
+  </ItemGroup>
+
 </Project>
