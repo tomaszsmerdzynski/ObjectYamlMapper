@@ -1,7 +1,9 @@
-﻿namespace ObjectYamlMapper.Serialization
+﻿using System.IO;
+
+namespace ObjectYamlMapper.Serialization
 {
     public interface ISerializer
     {
-        public string Serialize(object obj);
+        string Serialize(object obj);
     }
 }

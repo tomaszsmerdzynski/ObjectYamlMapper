@@ -25,6 +25,11 @@ namespace ObjectYamlMapper.Extensions
             return NumericTypes.Contains(type);
         }
 
+        public static bool IsDateTime(this Type type)
+        {
+            return type == typeof(DateTime);
+        }
+
         public static bool IsCustomObject(this Type type)
         {
             return type.IsClass && !type.IsGenericType && type != typeof(string);

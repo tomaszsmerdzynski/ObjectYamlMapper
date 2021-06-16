@@ -11,27 +11,32 @@ namespace ObjectYamlMapper.Serialization
     {
         public string Serialize(object obj)
         {
+            StringWriter buffer = new();
+            int nestingLevel = 0;
+            Serialize(obj, buffer, nestingLevel);
+            return buffer.ToString();
+        }
+
+        private string Serialize(object obj, StringWriter buffer, int nestingLevel)
+        {
             Type objType = obj.GetType();
             TypeInfo objTypeInfo = objType.GetTypeInfo();
 
             IEnumerable<FieldInfo> fields = objTypeInfo.DeclaredFields;
 
-            StringWriter buffer = new();
-
-            Console.WriteLine("*** Serializing object \"" + objType.Name + "\"...");
-
             foreach (var field in fields)
             {
-                string fieldName = field.Name.ToLower();
+                string fieldName = field.Name;
                 fieldName = RemoveFieldTag(fieldName);
 
-                if (field.FieldType.IsString())
+                if (field.FieldType.IsString() || field.FieldType.IsNumeric() || field.FieldType.IsEnum)
                 {
-                    buffer.WriteLine("{0}: \"{1}\"", fieldName, field.GetValue(obj));
+                    buffer.WriteLine("{0}{1}: {2}", AddIndentations(nestingLevel), fieldName, field.GetValue(obj));
                 }
-                else if (field.FieldType.IsNumeric())
+
+                else if (field.FieldType.IsDateTime())
                 {
-                    buffer.WriteLine("{0}: {1}", fieldName, field.GetValue(obj));
+                    buffer.WriteLine("{0}{1}: {2}", AddIndentations(nestingLevel), fieldName, field.GetValue(obj));
                 }
 
                 else if (field.FieldType.IsGenericType)
@@ -39,22 +44,30 @@ namespace ObjectYamlMapper.Serialization
                     Type genericType = field.FieldType.GetGenericArguments()[0];
                     if (field.GetValue(obj) is not IEnumerable<object> list || list.Any() == false)
                     {
-                        buffer.WriteLine("{0}: []");
+                        buffer.WriteLine("{0}{1}: []", AddIndentations(nestingLevel), fieldName);
                     }
-                    else if (genericType.IsString())
+                    else
                     {
-                        buffer.WriteLine("{0}:", fieldName);
-                        foreach (var element in list)
+                        buffer.WriteLine("{0}{1}:", AddIndentations(nestingLevel), fieldName);
+
+                        if (genericType.IsString() || genericType.IsNumeric())
                         {
-                            buffer.WriteLine(" - {0}", element.ToString());
+                            foreach (var element in list)
+                            {
+                                buffer.WriteLine("{0}{1}-{1}{2}", AddIndentations(nestingLevel), AddIndentations(1), element.ToString());
+                            }
                         }
-                    }
-                    else if (genericType.IsNumeric())
-                    {
-                        buffer.WriteLine("{0}:", fieldName);
-                        foreach (var element in list)
+                        else if (genericType.IsCustomObject())
                         {
-                            buffer.WriteLine(" - {0}", element.ToString());
+                            foreach (var element in list)
+                            {
+                                object tempObj = field.GetValue(obj);
+                                if (tempObj != null)
+                                {
+                                    buffer.WriteLine("{0}{1}-{1}{2}", AddIndentations(nestingLevel), AddIndentations(1), fieldName);
+                                    Serialize(tempObj, buffer, nestingLevel + 1);
+                                }
+                            }
                         }
                     }
                 }
@@ -62,13 +75,10 @@ namespace ObjectYamlMapper.Serialization
                 else if (field.FieldType.IsCustomObject())
                 {
                     object tempObj = field.GetValue(obj);
-                    if (tempObj == null)
+                    if (tempObj != null)
                     {
-                        buffer.WriteLine("{0}: {}");
-                    }
-                    else
-                    {
-                        Serialize(tempObj);
+                        buffer.WriteLine("{0}{1}:", AddIndentations(nestingLevel), fieldName);
+                        Serialize(tempObj, buffer, nestingLevel + 1);
                     }
                 }
             }
@@ -82,6 +92,11 @@ namespace ObjectYamlMapper.Serialization
                 fieldName = fieldName[(fieldName.IndexOf('<') + 1)..fieldName.IndexOf('>')];
             }
             return fieldName;
+        }
+
+        private string AddIndentations(int nestingLevel)
+        {
+            return new string(' ', nestingLevel * 2);
         }
     }
 }
